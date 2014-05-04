@@ -70,9 +70,8 @@ public class Server {
 		System.out.println("Camera sent");
 		ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 		while (true) {
-			System.out.println("Reading object from the in stream");
 			mCamera = (CameraInstructionQueue) ((CameraInstructionQueue) in.readObject()).board(mCamera);
-			System.out.println(mCamera.toString());
+			System.out.println("Received object");
 		}
 	}
 }

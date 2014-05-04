@@ -39,11 +39,16 @@ public class CameraInstructionQueue extends CommunicationStructure {
 	 * 
 	 * @param vpi
 	 *            ViewPointInfo to be updated.
+	 * @return True if the value might have changed, false if not.
 	 */
-	public final void execute(final ViewPointInfo vpi) {
+	public final boolean execute(final ViewPointInfo vpi) {
+		if (mQueue.isEmpty()) {
+			return false;
+		}
 		while (!mQueue.isEmpty()) {
 			mQueue.poll().execute(vpi);
 		}
+		return true;
 	}
 
 	/**

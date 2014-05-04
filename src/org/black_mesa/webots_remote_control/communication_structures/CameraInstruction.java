@@ -29,15 +29,12 @@ public class CameraInstruction implements Serializable {
 	public final void execute(final ViewPointInfo vpi) {
 		switch (mType) {
 		case MOVE:
-			System.out.println(mType + "(" + mArgs[0] + "," + mArgs[1] + "," + mArgs[2] + ")");
 			move(vpi);
 			break;
 		case TURN:
-			System.out.println(mType + "(" + mArgs[0] + ")");
 			turn(vpi);
 			break;
 		case PITCH:
-			System.out.println(mType + "(" + mArgs[0] + ")");
 			pitch(vpi);
 			break;
 		}

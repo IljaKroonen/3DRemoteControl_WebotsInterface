@@ -1,5 +1,4 @@
 import org.black_mesa.webots_remote_control.camera.ViewPointInfo;
-import org.black_mesa.webots_remote_control.communication_structures.CameraInstruction;
 import org.black_mesa.webots_remote_control.communication_structures.CameraInstructionQueue;
 import org.black_mesa.webots_remote_control.server.Server;
 
@@ -44,12 +43,13 @@ public class CameraController extends Supervisor {
 		while (step(TIMESTEP) != -1) {
 			CameraInstructionQueue currentState = mServer.getCamera();
 			// Application de la translation et de la rotation
-			t = getFromDef("CAMERA").getField("translation").getSFVec3f();
-			r = getFromDef("CAMERA").getField("rotation").getSFRotation();
+			t = getFromDef("CAMERA").getField("translation").getSFVec3f().clone();
+			r = getFromDef("CAMERA").getField("rotation").getSFRotation().clone();
 			vpi.update(t, r);
-			currentState.execute(vpi);
-			getFromDef("CAMERA").getField("translation").setSFVec3f(vpi.getT());
-			getFromDef("CAMERA").getField("rotation").setSFRotation(vpi.getR());
+			if (currentState.execute(vpi)) {
+				getFromDef("CAMERA").getField("translation").setSFVec3f(vpi.getT());
+				getFromDef("CAMERA").getField("rotation").setSFRotation(vpi.getR());
+			}
 		}
 	}
 
@@ -68,7 +68,5 @@ public class CameraController extends Supervisor {
 		}
 		CameraController controller = new CameraController(port);
 		controller.run();
-		@SuppressWarnings("unused")
-		CameraInstruction webotsPleaseCompileThisClass;
 	}
 }
